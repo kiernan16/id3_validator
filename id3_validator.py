@@ -13,6 +13,7 @@ import json
 
 # base_url = "http://40.71.5.142:8080/"
 base_url = "https://engineeringportal.nielsen.com/id3/"
+#base_url = "http://id3.eastus.cloudapp.azure.com:8080/"
 
 if len(sys.argv) <= 1:
     print('ID3 Validator for test cases',
@@ -34,10 +35,15 @@ file_contents = id3_file.read()
 
 
 try:
-    id3_tags = re.findall('www.nielsen.+?(?=\|)', file_contents)
+    # id3_tags = re.findall('www.nielsen.+?(?=\|)', file_contents)
+    # id3_tags = re.findall('www.nielsen.*\/\d\d', file_contents)
+    # id3_tags = re.findall('www.nielsen.+?(?=%|]|&)', file_contents)
+    id3_tags = re.findall('www.nielsen.{238}', file_contents)
     
     if id3_tags == []:
-       id3_tags = re.findall('www.nielsen.*', file_contents)
+        # id3_tags = re.findall('www.nielsen.*\/..', file_contents)
+        id3_tags = re.findall('www.nielsen.{238}', file_contents)
+       #id3_tags = re.findall('www.nielsen.*', file_contents)
        # id3_tags = re.findall('www.nielsen.+?(?=")', file_contents)
     if id3_tags == []:
         print("No ID3 tags detected")
@@ -48,6 +54,7 @@ except:
 
 unique_id3_tags = list(set(id3_tags))
 # print(unique_id3_tags)
+print("\n\n")
 
 def print_statement ( id3, sid, ts, cn ):
     "This prints out the format for the spreadsheet"
